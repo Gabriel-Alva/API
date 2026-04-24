@@ -1,18 +1,17 @@
-// Listeners de eventos
-document.getElementById('searchBtn').addEventListener('click', fetchCompoundData);
-document.getElementById('compoundInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') fetchCompoundData();
-});
-
-// Calculadora de moles
-window.calculateMoles = function(grams, molecularWeight, resultElementId) {
-    const resultSpan = document.getElementById(resultElementId);
-    if (!grams || isNaN(grams) || grams <= 0) {
-        resultSpan.innerText = "0.0000";
-        return;
-    }
-    const moles = parseFloat(grams) / parseFloat(molecularWeight);
-    resultSpan.innerText = moles.toFixed(4);
+// Diccionario de traducción movido al Frontend para que funcione en GitHub Pages
+const spanishToEnglishDictionary = {
+    "oro": "gold", "hidrogeno": "hydrogen", "hidrógeno": "hydrogen",
+    "oxigeno": "oxygen", "oxígeno": "oxygen", "carbono": "carbon",
+    "nitrogeno": "nitrogen", "nitrógeno": "nitrogen", "hierro": "iron",
+    "cobre": "copper", "plata": "silver", "plomo": "lead",
+    "azufre": "sulfur", "calcio": "calcium", "sodio": "sodium",
+    "potasio": "potassium", "magnesio": "magnesium", "aluminio": "aluminum",
+    "zinc": "zinc", "estaño": "tin", "mercurio": "mercury",
+    "niquel": "nickel", "níquel": "nickel", "helio": "helium",
+    "neon": "neon", "neón": "neon", "argon": "argon", "argón": "argon",
+    "dioxido de carbono": "carbon dioxide", "dióxido de carbono": "carbon dioxide",
+    "agua": "water", "glucosa": "glucose", "sal": "sodium chloride",
+    "h": "hydrogen", "o": "oxygen", "c": "carbon" // Añadidas letras sueltas por si acaso
 };
 
 async function fetchCompoundData() {
@@ -32,12 +31,9 @@ async function fetchCompoundData() {
         </div>`;
 
     try {
-        // 1. Consultar a NUESTRO backend (PHP) para la traducción al inglés
-        const phpResponse = await fetch(`api.php?q=${encodeURIComponent(queryText)}`);
-        if (!phpResponse.ok) throw new Error("Error conectando con nuestro servidor local (api.php).");
-        
-        const phpData = await phpResponse.json();
-        const compoundName = phpData.translatedToEnglish;
+        // 1. Traducción LOCAL usando el diccionario (Adiós api.php)
+        const queryLower = queryText.toLowerCase();
+        const compoundName = spanishToEnglishDictionary[queryLower] || queryLower;
 
         // 2. Consultar a PubChem
         const descUrl = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${encodeURIComponent(compoundName)}/description/JSON`;
@@ -73,8 +69,8 @@ async function fetchCompoundData() {
             }
         }
 
-        // 3. Consultar MyMemory para traducir de vuelta al español la descripción
-        const MAX_TRANS_LENGTH = 480;
+        // 3. Consultar MyMemory (Con límite estricto para evitar el error de 500 chars)
+        const MAX_TRANS_LENGTH = 400; // Reducido a 400 para estar seguros con la API gratuita
         const textToTranslate = engDescription.length > MAX_TRANS_LENGTH ? engDescription.substring(0, MAX_TRANS_LENGTH) + "..." : engDescription;
         let spaDescription = textToTranslate; 
         let spaTitle = engTitle; 
@@ -82,15 +78,25 @@ async function fetchCompoundData() {
         try {
             const translateUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(textToTranslate)}&langpair=en|es`;
             const transDescRes = await fetch(translateUrl);
-            if (transDescRes.ok) spaDescription = (await transDescRes.json()).responseData.translatedText;
+            if (transDescRes.ok) {
+                const transData = await transDescRes.json();
+                if(transData.responseStatus === 200) {
+                    spaDescription = transData.responseData.translatedText;
+                }
+            }
 
             const transTitleRes = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(engTitle)}&langpair=en|es`);
-            if (transTitleRes.ok) spaTitle = (await transTitleRes.json()).responseData.translatedText;
+            if (transTitleRes.ok) {
+                const titleData = await transTitleRes.json();
+                 if(titleData.responseStatus === 200) {
+                    spaTitle = titleData.responseData.translatedText;
+                 }
+            }
         } catch (e) {
             console.warn("MyMemory API falló, mostrando en inglés.");
         }
 
-        // 4. Renderizar resultados con Iconos SVG
+        // 4. Renderizar resultados
         const uniqueId = Date.now();
         let calculatorHTML = '';
         
@@ -133,20 +139,4 @@ async function fetchCompoundData() {
                 <span>${error.message}</span>
             </div>`;
     }
-}
-
-function addToStudyGlossary(title, formula, description) {
-    const studyList = document.getElementById('study-list');
-    const listItem = document.createElement('li');
-    listItem.className = "fade-in";
-    const shortDescription = description.length > 120 ? description.substring(0, 120) + "..." : description;
-
-    listItem.innerHTML = `
-        <div class="glossary-item-header">
-            <strong>${title}</strong> 
-            <span class="formula-badge small">${formula}</span>
-        </div>
-        <p class="glossary-item-desc">${shortDescription}</p>
-    `;
-    studyList.insertBefore(listItem, studyList.firstChild);
 }
