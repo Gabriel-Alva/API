@@ -1,0 +1,196 @@
+:root {
+    --primary: #059669; /* Verde esmeralda profesional */
+    --primary-hover: #047857;
+    --bg-main: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --badge-bg: #ecfdf5;
+    --badge-border: #a7f3d0;
+    --calc-bg: #f1f5f9;
+    --error: #ef4444;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --radius: 8px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    margin: 0;
+    padding: 30px 20px;
+    display: flex;
+    justify-content: center;
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 700px;
+    width: 100%;
+}
+
+/* Tipografía general */
+h1, h2, h3, h4 { color: #0f172a; margin-top: 0; }
+p { margin-top: 0; color: var(--text-muted); }
+
+/* Íconos SVG */
+.icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+.header-icon { width: 32px; height: 32px; color: var(--primary); }
+
+/* Encabezado */
+header { margin-bottom: 2rem; }
+.title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+.title-wrapper h1 { margin: 0; font-size: 1.8rem; }
+.subtitle { font-size: 1rem; }
+
+/* Buscador */
+.search-box {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+.input-wrapper {
+    position: relative;
+    flex: 1;
+}
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+input[type="text"] {
+    width: 100%;
+    padding: 12px 12px 12px 44px; /* Espacio para el ícono */
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+input[type="text"]:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+}
+button {
+    padding: 12px 24px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+button:hover { background-color: var(--primary-hover); }
+
+/* Tarjetas y Resultados */
+.card {
+    background: var(--card-bg);
+    padding: 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    border-top: 4px solid var(--primary);
+}
+.card-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.card-title-group h3 { margin: 0; font-size: 1.4rem; }
+.description-text { color: var(--text-main); font-size: 1.05rem; }
+
+/* Badges (Fórmulas) */
+.formula-badge {
+    background-color: var(--badge-bg);
+    color: var(--primary-hover);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    border: 1px solid var(--badge-border);
+}
+.formula-badge.small { font-size: 0.85rem; padding: 2px 6px; }
+
+/* Calculadora Estequiométrica */
+.calculator-box {
+    background-color: var(--calc-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-top: 20px;
+}
+.calc-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    color: var(--text-main);
+}
+.calc-header h4 { margin: 0; font-size: 1.1rem; }
+.calc-subtext { font-size: 0.85rem; margin-bottom: 12px; }
+.calc-input-group { display: flex; align-items: center; gap: 12px; }
+.calc-input-group input {
+    width: 140px;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    outline: none;
+}
+.calc-input-group input:focus { border-color: var(--primary); }
+.calc-equals { color: var(--text-muted); font-weight: bold; }
+.calc-result { font-size: 1.1rem; font-weight: 600; color: var(--primary); }
+
+/* Mensajes de Estado y Error */
+.state-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+    color: var(--text-muted);
+    font-style: italic;
+}
+.state-message.error {
+    color: var(--error);
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: var(--radius);
+    font-style: normal;
+}
+.spinner { animation: spin 1s linear infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+/* Glosario */
+.divider { border: 0; height: 1px; background: var(--border); margin: 40px 0 24px 0; }
+.glossary-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.glossary-header h2 { margin: 0; font-size: 1.3rem; }
+#study-list { list-style: none; padding: 0; margin: 0; }
+#study-list li {
+    background: var(--card-bg);
+    padding: 16px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 12px;
+    border-left: 3px solid var(--border);
+}
+.glossary-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.glossary-item-desc { margin: 0; font-size: 0.9rem; }
+
+/* Animaciones */
+.fade-in { animation: fadeIn 0.4s ease-in; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }

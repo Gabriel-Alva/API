@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador Químico Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="title-wrapper">
+                <svg class="icon header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6v3l4 10a2 2 0 0 1-1.7 3H6.7A2 2 0 0 1 5 16l4-10V3z"/></svg>
+                <h1>Explorador Químico</h1>
+            </div>
+            <p class="subtitle">Busca compuestos, obtén datos de PubChem y calcula moles basándote en el peso molecular.</p>
+        </header>
+
+        <div class="search-box">
+            <div class="input-wrapper">
+                <svg class="icon search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="compoundInput" placeholder="Ej: Oro, H2O, Glucosa..." autocomplete="off">
+            </div>
+            <button id="searchBtn">
+                Buscar
+            </button>
+        </div>
+
+        <div id="resultContainer"></div>
+
+        <hr class="divider">
+        
+        <div class="glossary-header">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <h2>Glosario de Estudio</h2>
+        </div>
+        <ul id="study-list"></ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
