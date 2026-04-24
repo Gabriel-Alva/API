@@ -14,6 +14,28 @@ const spanishToEnglishDictionary = {
     "h": "hydrogen", "o": "oxygen", "c": "carbon" // Añadidas letras sueltas por si acaso
 };
 
+// --- FUNCIONES NUEVAS AÑADIDAS PARA EVITAR ERRORES ---
+
+// Función para calcular los moles dinámicamente
+function calculateMoles(grams, molecularWeight, resultElementId) {
+    const resultSpan = document.getElementById(resultElementId);
+    if (grams && !isNaN(grams) && parseFloat(grams) >= 0) {
+        const moles = parseFloat(grams) / parseFloat(molecularWeight);
+        resultSpan.textContent = moles.toFixed(4);
+    } else {
+        resultSpan.textContent = "0.0000";
+    }
+}
+
+// Función placeholder para el glosario
+function addToStudyGlossary(title, formula, description) {
+    // Si más adelante quieres agregar los elementos a una lista en el HTML, el código iría aquí.
+    // Por ahora, solo lo registra en la consola para que no arroje error.
+    console.log(`Guardado en el glosario: ${title} (${formula})`);
+}
+
+// -----------------------------------------------------
+
 async function fetchCompoundData() {
     const inputField = document.getElementById('compoundInput');
     const queryText = inputField.value.trim();
