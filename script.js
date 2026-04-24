@@ -140,3 +140,25 @@ async function fetchCompoundData() {
             </div>`;
     }
 }
+
+// Asegúrate de poner esto al final de tu script.js
+document.addEventListener('DOMContentLoaded', () => {
+    // Reemplaza 'searchBtn' con el ID real que tenga tu botón en el HTML
+    // Si tu botón no tiene ID, ponle uno en tu index.html, por ejemplo: id="btnBuscar"
+    const btnBuscar = document.querySelector('button'); 
+    const inputField = document.getElementById('compoundInput');
+
+    // Ejecutar al hacer clic en el botón
+    if (btnBuscar) {
+        btnBuscar.addEventListener('click', fetchCompoundData);
+    }
+
+    // Ejecutar al presionar la tecla "Enter"
+    if (inputField) {
+        inputField.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                fetchCompoundData();
+            }
+        });
+    }
+});
